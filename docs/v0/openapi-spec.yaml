@@ -1,0 +1,177 @@
+openapi: 3.0.1
+info:
+  title: AWeber code sample
+  description: 'Is Christian Ullman worth his salt?  Yes, the answer is yes, in spades!'
+  version: 0.0.1
+externalDocs:
+  description: Git repo including docs
+  url: https://git hub
+consumes:
+    - application/json
+produces:
+    - application/json
+basePath: /api
+
+paths:
+  /widgets:
+    get:
+      operationId: src.v0.widgets.read_all
+      tags:
+        - Widget
+      summary: Read all the widgets
+      description: Read all the widgets sort by name
+      responses:
+        200:
+          description: Successfully read all widgets
+          schema:
+            type: array
+            items:
+              properties:
+                widget_id:
+                  type: integer
+                  description: Id of the widget
+                name:
+                  type: string
+                  description: Name of the widget
+                number_of_parts:
+                  type: integer
+                  description: How parts are in thsi widget
+                created_at:
+                  type: string
+                  description: Create timestamp
+                updated_at:
+                  type: string
+                  description: Updated timestamp
+    post:
+      operationId: src.v0.widgets.create
+      tags:
+        - Widget
+      summary: Create a widgets
+      description: Create a new widget
+      parameters:
+        - name: widget
+          in: body
+          description: Widget to create
+          required: True
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of widget to create
+              number_of_parts:
+                type: integer
+                description: number of parts
+      responses:
+        201:
+          description: Successfully created person
+          schema:
+            properties:
+              widget_id:
+                type: integer
+                description: Id of the widget
+              name:
+                type: string
+                description: Name of the widget
+              number_of_parts:
+                type: integer
+                description: How parts are in thsi widget
+              created_at:
+                type: string
+                description: Create timestamp
+              updated_at:
+                type: string
+                description: Updated timestamp
+  /widgets/{widget_id}:
+    get:
+      operationId: src.v0.widgets.read_one
+      tags:
+        - Widget
+      summary: Read a singel widget
+      description: Ra singel widget person
+      parameters:
+        - name: widget_id
+          in: path
+          description: Id of the widget to get
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read widget from db
+          schema:
+            type: object
+            properties:
+              widget_id:
+                type: integer
+                description: Id of the widget
+              name:
+                type: string
+                description: Name of the widget
+              number_of_parts:
+                type: integer
+                description: How parts are in thsi widget
+              created_at:
+                type: string
+                description: Create timestamp
+              updated_at:
+                type: string
+                description: Updated timestamp
+    put:
+      operationId: src.v0.widgets.update
+      tags:
+        - Widget
+      summary: Update a widget
+      description: Update a widget
+      parameters:
+        - name: widget_id
+          in: path
+          description: Widget to update
+          type: integer
+          required: True
+        - name: widget
+          in: body
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of widget to create
+              number_of_parts:
+                type: integer
+                description: number of parts
+      responses:
+        200:
+          description: Successfully update widget
+          schema:
+            properties:
+              widget_id:
+                type: integer
+                description: Id of the widget
+              name:
+                type: string
+                description: Name of the widget
+              number_of_parts:
+                type: integer
+                description: How parts are in thsi widget
+              created_at:
+                type: string
+                description: Create timestamp
+              updated_at:
+                type: string
+                description: Updated timestamp
+    delete:
+      operationId: src.v0.widgets.delete
+      tags:
+        - Widgit
+      summary: Delete a widget from the db
+      description: Delete a widget
+      parameters:
+        - name: widget_id
+          in: path
+          type: integer
+          description: Id of the widget to delete
+          required: true
+      responses:
+        200:
+          description: Successfully deleted a widget
+
