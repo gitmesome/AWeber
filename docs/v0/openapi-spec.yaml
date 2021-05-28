@@ -6,11 +6,8 @@ info:
 externalDocs:
   description: Git repo including docs
   url: https://git hub
-consumes:
-    - application/json
-produces:
-    - application/json
-basePath: /api
+servers:
+    - url: http://0.0.0.0/v1
 
 paths:
   /widgets:
@@ -23,25 +20,27 @@ paths:
       responses:
         200:
           description: Successfully read all widgets
-          schema:
-            type: array
-            items:
-              properties:
-                widget_id:
-                  type: integer
-                  description: Id of the widget
-                name:
-                  type: string
-                  description: Name of the widget
-                number_of_parts:
-                  type: integer
-                  description: How parts are in thsi widget
-                created_at:
-                  type: string
-                  description: Create timestamp
-                updated_at:
-                  type: string
-                  description: Updated timestamp
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    widget_id:
+                      type: integer
+                      description: Id of the widget
+                    name:
+                      type: string
+                      description: Name of the widget
+                    number_of_parts:
+                      type: integer
+                      description: How parts are in thsi widget
+                    created_at:
+                      type: string
+                      description: Create timestamp
+                    updated_at:
+                      type: string
+                      description: Updated timestamp
     post:
       operationId: src.v0.widgets.create
       tags:
@@ -64,75 +63,43 @@ paths:
                 description: number of parts
       responses:
         201:
-          description: Successfully created person
-          schema:
-            properties:
-              widget_id:
-                type: integer
-                description: Id of the widget
-              name:
-                type: string
-                description: Name of the widget
-              number_of_parts:
-                type: integer
-                description: How parts are in thsi widget
-              created_at:
-                type: string
-                description: Create timestamp
-              updated_at:
-                type: string
-                description: Updated timestamp
-  /widgets/{widget_id}:
-    get:
-      operationId: src.v0.widgets.read_one
-      tags:
-        - Widget
-      summary: Read a singel widget
-      description: Ra singel widget person
-      parameters:
-        - name: widget_id
-          in: path
-          description: Id of the widget to get
-          type: integer
-          required: True
-      responses:
-        200:
-          description: Successfully read widget from db
-          schema:
-            type: object
-            properties:
-              widget_id:
-                type: integer
-                description: Id of the widget
-              name:
-                type: string
-                description: Name of the widget
-              number_of_parts:
-                type: integer
-                description: How parts are in thsi widget
-              created_at:
-                type: string
-                description: Create timestamp
-              updated_at:
-                type: string
-                description: Updated timestamp
+          description: Successfully created widget
+          content:
+            application/json:
+              schema:
+                properties:
+                  widget_id:
+                    type: integer
+                    description: Id of the widget
+                  name:
+                    type: string
+                    description: Name of the widget
+                  number_of_parts:
+                    type: integer
+                    description: How parts are in thsi widget
+                  created_at:
+                    type: string
+                    description: Create timestamp
+                  updated_at:
+                    type: string
+                    description: Updated timestamp
     put:
       operationId: src.v0.widgets.update
       tags:
         - Widget
-      summary: Update a widget
-      description: Update a widget
+      summary: Create a widgets
+      description: Create a new widget
       parameters:
-        - name: widget_id
-          in: path
-          description: Widget to update
-          type: integer
-          required: True
         - name: widget
           in: body
+          description: Widget to create
+          required: True
           schema:
             type: object
             properties:
+              widget_id:
+                type: integer
+                description: number of parts
               name:
                 type: string
                 description: name of widget to create
@@ -140,25 +107,64 @@ paths:
                 type: integer
                 description: number of parts
       responses:
-        200:
-          description: Successfully update widget
+        201:
+          description: Successfully created widget
+          content:
+            application/json:
+              schema:
+                properties:
+                  widget_id:
+                    type: integer
+                    description: Id of the widget
+                  name:
+                    type: string
+                    description: Name of the widget
+                  number_of_parts:
+                    type: integer
+                    description: How parts are in thsi widget
+                  created_at:
+                    type: string
+                    description: Create timestamp
+                  updated_at:
+                    type: string
+                    description: Updated timestamp
+  /widgets/{widget_id}:
+    get:
+      operationId: src.v0.widgets.read_one
+      tags:
+        - Widget
+      summary: Read a singel widget
+      description: Read a singel widget
+      parameters:
+        - in: path
+          name: widget_id
+          description: Id of the widget to get
           schema:
-            properties:
-              widget_id:
-                type: integer
-                description: Id of the widget
-              name:
-                type: string
-                description: Name of the widget
-              number_of_parts:
-                type: integer
-                description: How parts are in thsi widget
-              created_at:
-                type: string
-                description: Create timestamp
-              updated_at:
-                type: string
-                description: Updated timestamp
+            type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read widget from db
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  widget_id:
+                    type: integer
+                    description: Id of the widget
+                  name:
+                    type: string
+                    description: Name of the widget
+                  number_of_parts:
+                    type: integer
+                    description: How parts are in thsi widget
+                  created_at:
+                    type: string
+                    description: Create timestamp
+                  updated_at:
+                    type: string
+                    description: Updated timestamp
     delete:
       operationId: src.v0.widgets.delete
       tags:
@@ -166,12 +172,12 @@ paths:
       summary: Delete a widget from the db
       description: Delete a widget
       parameters:
-        - name: widget_id
-          in: path
-          type: integer
+        - in: path
+          name: widget_id
           description: Id of the widget to delete
+          schema:
+            type: integer
           required: true
       responses:
         200:
           description: Successfully deleted a widget
-
