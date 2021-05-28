@@ -6,7 +6,7 @@ class Widget(db.Model):
     __tablename__ = "widget"
     widget_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
-    num_of_parts = db.Column(db.Iteger())
+    num_of_parts = db.Column(db.Integer())
     created_at = db.Column(
         db.DateTime, default=datetime.utcnow
     )

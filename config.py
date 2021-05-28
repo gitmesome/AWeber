@@ -11,7 +11,7 @@ connex_app = connexion.App(__name__, specification_dir=basedir+'/docs/v0/')
 app = connex_app.app
 
 # Build the Sqlite ULR for SqlAlchemy
-sqlite_url = "sqlite:////" + os.path.join(basedir+'/db/', "widgets.db")
+sqlite_url = "sqlite:////" + os.path.join(basedir+'/db/', "widget.db")
 
 # Configure the SqlAlchemy part of the app instance
 app.config["SQLALCHEMY_ECHO"] = False
