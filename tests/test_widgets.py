@@ -61,3 +61,33 @@ def test_create_duplicate(app, mocker):
             body = {'name': 'SpinnerDoo', 'num_of_parts': 3}
             result = widgets.create(body)
             assert result[1] == 409
+
+
+def test_update_missing(app, mocker):
+    mocker.patch(
+        'src.v0.widgets.get_widget_by_id',
+        return_value=None
+    )
+    with app.app_context():
+        with pytest.raises(Exception):
+            body = {'widget_id': 1, 'name': 'SpinnerDoo', 'num_of_parts': 3}
+            result = widgets.update(body)
+            assert result[1] == 404
+
+def test_update_one(app, mocker):
+    mocker.patch(
+        'src.v0.widgets.get_widget_by_id',
+        return_value=True
+    )
+    mocker.patch(
+        'src.v0.widgets.update_db_widget',
+        return_value=one_row
+    )
+    mocker.patch(
+        'src.v0.widgets.wrap_to_dict',
+        return_value=one_row
+    )
+    with app.app_context():
+        body = {'widget_id': 1, 'name': 'SpinnerDoo', 'num_of_parts': 3}
+        result = widgets.update(body)
+        assert result[1] == 200

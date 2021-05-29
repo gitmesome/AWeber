@@ -46,12 +46,29 @@ def does_widget_exists(widget_name, widget_number_of_parts):
 
 
 def create_db_widget(widget_name, widget_number_of_parts):
-    widget = Widget( name = widget_name, num_of_parts = widget_number_of_parts)
+    widget = Widget(name=widget_name, num_of_parts=widget_number_of_parts)
 
     db.session.add(widget)
     db.session.commit()
 
     return widget
+
+
+def update_db_widget(widget, body):
+    widget.name = body.get('name')
+    widget.num_of_parts = body.get('number_of_parts')
+
+    db.session.add(widget)
+    db.session.commit()
+
+    return widget
+
+
+def get_widget_by_id(widget_id):
+    return (
+        Widget.query.filter(Widget.widget_id == widget_id)
+        .one_or_none()
+    )
 
 
 def read_all():
@@ -85,9 +102,17 @@ def create(body):
             f"Widget {widget_name} {widget_number_of_parts} already exists"
         )
 
+def update(body):
+    widget_id = body.get('widget_id')
 
-def update(widget):
-    pass
+    widget_exists = get_widget_by_id(widget_id)
+
+    if widget_exists is not None:
+        widget = update_db_widget(widget_exists, body)
+        result = wrap_to_dict(widget)
+        return jsonify(result), 200
+    else:
+        abort(404, "Widget Not found")
 
 
 def delete(widget_id):
