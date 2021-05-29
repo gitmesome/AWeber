@@ -1,5 +1,5 @@
 from .models import Widget
-from flask import jsonify, abort
+from flask import jsonify, abort, make_response
 from config import db
 
 
@@ -63,6 +63,10 @@ def update_db_widget(widget, body):
 
     return widget
 
+def delete_db_widget(widget):
+    db.session.delete(widget)
+    db.session.commit()
+
 
 def get_widget_by_id(widget_id):
     return (
@@ -102,6 +106,7 @@ def create(body):
             f"Widget {widget_name} {widget_number_of_parts} already exists"
         )
 
+
 def update(body):
     widget_id = body.get('widget_id')
 
@@ -116,4 +121,10 @@ def update(body):
 
 
 def delete(widget_id):
-    pass
+    widget_exists = get_widget_by_id(widget_id)
+
+    if widget_exists is not None:
+        delete_db_widget(widget_exists)
+        return make_response(f"Widget {widget_id} deleted", 200)
+    else:
+        abort(404, "Widget Not found")

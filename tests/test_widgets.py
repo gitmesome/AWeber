@@ -32,6 +32,7 @@ def test_read_one_with_data(app, mocker):
         result = widgets.read_one(1)
         assert result.status == '200 OK'
 
+
 def test_create_one(app, mocker):
     mocker.patch(
         'src.v0.widgets.does_widget_exists',
@@ -74,6 +75,7 @@ def test_update_missing(app, mocker):
             result = widgets.update(body)
             assert result[1] == 404
 
+
 def test_update_one(app, mocker):
     mocker.patch(
         'src.v0.widgets.get_widget_by_id',
@@ -91,3 +93,32 @@ def test_update_one(app, mocker):
         body = {'widget_id': 1, 'name': 'SpinnerDoo', 'num_of_parts': 3}
         result = widgets.update(body)
         assert result[1] == 200
+
+
+def test_delete_one(app, mocker):
+    mocker.patch(
+        'src.v0.widgets.get_widget_by_id',
+        return_value=True
+    )
+    mocker.patch(
+        'src.v0.widgets.delete_db_widget',
+        return_value=None
+    )
+    with app.app_context():
+        result = widgets.delete(1)
+        assert result.status == '200 OK'
+
+
+def test_delete_missing(app, mocker):
+    mocker.patch(
+        'src.v0.widgets.get_widget_by_id',
+        return_value=None
+    )
+    mocker.patch(
+        'src.v0.widgets.delete_db_widget',
+        return_value=None
+    )
+    with app.app_context():
+        with pytest.raises(Exception):
+            result = widgets.delete(1)
+            assert result[1] == 404
