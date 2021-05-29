@@ -14,12 +14,12 @@
 + Include a README that describes how to setup and run the application.
 
 #### Ideas to make the project even better:
-- Include unit or functional test coverage
-- Include an OpenAPI spec
-- PEP8 compliance
-- Pass standard lint tests (ie: flake8 or similar)
-- Pass bandit security analysis
-- Use Python type annotations
+- [X] Include unit or functional test coverage
+- [X] Include an OpenAPI spec
+- [X] PEP8 compliance
+- [X] Pass standard lint tests (ie: flake8 or similar)
+- [ ] Pass bandit security analysis
+- [ ] Use Python type annotations
 
 ### Setup and Use
 #### Initialize
