@@ -5,7 +5,7 @@ from config import db
 
 def get_all_from_db():
     """
-        Helper functions moved out so they can be conveniently mocked
+        Helper functions moved out so it can be conveniently mocked
     """
     result = {'widgets': []}
     for widget in Widget.query.all():
@@ -19,7 +19,7 @@ def get_all_from_db():
 
 def get_one_from_db(widget_id):
     """
-        Helper functions moved out so they can be conveniently mocked
+        Helper functions moved out so it can be conveniently mocked
     """
     widget = Widget.query.get(widget_id)
     result = wrap_to_dict(widget)
@@ -28,6 +28,9 @@ def get_one_from_db(widget_id):
 
 
 def wrap_to_dict(widget):
+    """
+        Turn the row into  dictionary
+    """
     result = {'widgets': []}
     row = {}
     for column in widget.__table__.columns:
@@ -38,6 +41,9 @@ def wrap_to_dict(widget):
 
 
 def does_widget_exists(widget_name, widget_number_of_parts):
+    """
+        Look up widget in DB by name and number_of_parts
+    """
     return (
         Widget.query.filter(Widget.name == widget_name)
         .filter(Widget.number_of_parts == widget_number_of_parts)
@@ -46,6 +52,9 @@ def does_widget_exists(widget_name, widget_number_of_parts):
 
 
 def create_db_widget(widget_name, widget_number_of_parts):
+    """
+        Helper functions moved out so it can be conveniently mocked
+    """
     widget = Widget(name=widget_name, number_of_parts=widget_number_of_parts)
 
     db.session.add(widget)
@@ -55,6 +64,9 @@ def create_db_widget(widget_name, widget_number_of_parts):
 
 
 def update_db_widget(widget, body):
+    """
+        Helper functions moved out so it can be conveniently mocked
+    """
     widget.name = body.get('name')
     widget.number_of_parts = body.get('number_of_parts')
 
@@ -64,11 +76,17 @@ def update_db_widget(widget, body):
     return widget
 
 def delete_db_widget(widget):
+    """
+        Helper functions moved out so it can be conveniently mocked
+    """
     db.session.delete(widget)
     db.session.commit()
 
 
 def get_widget_by_id(widget_id):
+    """
+        Lookup widget by ID
+    """
     return (
         Widget.query.filter(Widget.widget_id == widget_id)
         .one_or_none()
@@ -76,11 +94,17 @@ def get_widget_by_id(widget_id):
 
 
 def read_all():
+    """
+        EndPoint - lookup all widgets
+    """
     result = get_all_from_db()
     return jsonify(result)
 
 
 def read_one(widget_id):
+    """
+        EndPoint - lookup one widget
+    """
     try:
         result = get_one_from_db(widget_id)
         return jsonify(result)
@@ -89,6 +113,9 @@ def read_one(widget_id):
 
 
 def create(body):
+    """
+        EndPoint -  create a widget
+    """
     widget_name = body.get('name')
     widget_number_of_parts = body.get('number_of_parts')
 
@@ -108,6 +135,9 @@ def create(body):
 
 
 def update(body):
+    """
+        EndPoint -  update a widget
+    """
     widget_id = body.get('widget_id')
 
     widget_exists = get_widget_by_id(widget_id)
@@ -121,6 +151,9 @@ def update(body):
 
 
 def delete(widget_id):
+    """
+        EndPoint -  delete a widget
+    """
     widget_exists = get_widget_by_id(widget_id)
 
     if widget_exists is not None:
