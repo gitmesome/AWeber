@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 from config import db
 from src.v0.models import Widget
 

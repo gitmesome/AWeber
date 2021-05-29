@@ -75,6 +75,7 @@ def update_db_widget(widget, body):
 
     return widget
 
+
 def delete_db_widget(widget):
     """
         Helper functions moved out so it can be conveniently mocked
