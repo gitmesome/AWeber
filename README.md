@@ -21,4 +21,15 @@
 - Pass bandit security analysis
 - Use Python type annotations
 
-
+### Setup and Use
+#### Initialize
+```
+python3 -m venv .venv
+source .venv/bin/activate
+pip3 install -r requirments.txt
+python3 init_db.py
+```
+#### Test
+```pytest --disable-pytest-warnings```
+#### Run
+```python3 server.py```
