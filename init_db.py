@@ -34,7 +34,7 @@ db.create_all()
 for widget in WIDGET:
     widg = Widget(
         name=widget.get("name"),
-        num_of_parts=widget.get("number_of_parts")
+        number_of_parts=widget.get("number_of_parts")
     )
 
     db.session.add(widg)

@@ -40,13 +40,13 @@ def wrap_to_dict(widget):
 def does_widget_exists(widget_name, widget_number_of_parts):
     return (
         Widget.query.filter(Widget.name == widget_name)
-        .filter(Widget.num_of_parts == widget_number_of_parts)
+        .filter(Widget.number_of_parts == widget_number_of_parts)
         .one_or_none()
     )
 
 
 def create_db_widget(widget_name, widget_number_of_parts):
-    widget = Widget(name=widget_name, num_of_parts=widget_number_of_parts)
+    widget = Widget(name=widget_name, number_of_parts=widget_number_of_parts)
 
     db.session.add(widget)
     db.session.commit()
@@ -56,7 +56,7 @@ def create_db_widget(widget_name, widget_number_of_parts):
 
 def update_db_widget(widget, body):
     widget.name = body.get('name')
-    widget.num_of_parts = body.get('number_of_parts')
+    widget.number_of_parts = body.get('number_of_parts')
 
     db.session.add(widget)
     db.session.commit()
