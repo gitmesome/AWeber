@@ -32,9 +32,12 @@ db.create_all()
 
 # Populate the widget db
 for widget in WIDGET:
-    w = Widget(name=widget.get("name"), num_of_parts=widget.get("number_of_parts"))
+    widg = Widget(
+        name=widget.get("name"),
+        num_of_parts=widget.get("number_of_parts")
+    )
 
-    db.session.add(w)
+    db.session.add(widg)
 
 for widget in Widget.query.all():
     for column in widget.__table__.columns:
