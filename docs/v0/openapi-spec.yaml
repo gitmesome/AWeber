@@ -46,21 +46,23 @@ paths:
       tags:
         - Widget
       summary: Create a widgets
-      description: Create a new widget
-      parameters:
-        - name: widget
-          in: body
-          description: Widget to create
-          required: True
-          schema:
-            type: object
-            properties:
-              name:
-                type: string
-                description: name of widget to create
-              number_of_parts:
-                type: integer
-                description: number of parts
+      requestBody:
+        description: Create a new widget
+        required: True
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: name of widget to create
+                number_of_parts:
+                  type: integer
+                  description: number of parts
+              required:
+                - name
+                - number_of_parts
       responses:
         201:
           description: Successfully created widget
@@ -87,27 +89,30 @@ paths:
       operationId: src.v0.widgets.update
       tags:
         - Widget
-      summary: Create a widgets
-      description: Create a new widget
-      parameters:
-        - name: widget
-          in: body
-          description: Widget to create
-          required: True
-          schema:
-            type: object
-            properties:
-              widget_id:
-                type: integer
-                description: number of parts
-              name:
-                type: string
-                description: name of widget to create
-              number_of_parts:
-                type: integer
-                description: number of parts
+      summary: Update a widgets
+      requestBody:
+        description: Update a new widget
+        required: True
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                widget_id:
+                  type: integer
+                  description: number of parts
+                name:
+                  type: string
+                  description: name of widget to create
+                number_of_parts:
+                  type: integer
+                  description: number of parts
+              required:
+                - widget_id
+                - name
+                - number_of_parts
       responses:
-        201:
+        200:
           description: Successfully created widget
           content:
             application/json:
